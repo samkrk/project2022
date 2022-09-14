@@ -12,6 +12,7 @@ int main()
 
         // check the type of the event...
         while (window.pollEvent(event))
+
         {
 
         //////////////////////////////////
