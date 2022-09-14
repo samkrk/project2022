@@ -4,15 +4,16 @@
 using namespace std;
 
 int main(){
-    int height = 3840;
-    int length = 1080;
+    int height = 1600;
+    int length = 2560;
+    
     
     // create window
-    sf::RenderWindow window(sf::VideoMode(height,length),"Window");
+    sf::RenderWindow window(sf::VideoMode(length,height),"Window");
 
     // create texture of image and map onto sprite
     sf::Texture texture;
-    if (!texture.loadFromFile("image.png",sf::IntRect(10, 10, height, length)))
+    if (!texture.loadFromFile("image.png",sf::IntRect(10, 10, length, height)))
     {
         cout << "texture failed to load" << endl;
     }
@@ -22,6 +23,9 @@ int main(){
     // create shape
     sf::CircleShape player(60.f,4);
     player.setPosition(450.f, 400.f);
+    sf::Vector2f position = player.getPosition();
+    // get the bounding box of the entity
+    sf::FloatRect boundingBox = player.getGlobalBounds();
 
     // main game loop
     while (window.isOpen())
@@ -43,14 +47,15 @@ int main(){
                 break;
             } 
         }
+        position = player.getPosition();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {player.move(-1.f, 0.f);}
+            {if (position.x>0){player.move(-1.f, 0.f);}}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            {player.move(1.f, 0.f);}
+            {if (position.x<(length-120)){player.move(1.f, 0.f);}}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {player.move(0.f, -1.f);}
+            {if (position.y>0){player.move(0.f, -1.f);}}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            {player.move(0.f, 1.f);}
+            {if (position.y<(height-180)){player.move(0.f, 1.f);}}
 
         window.clear(sf::Color::Black);
         window.draw(sprite);
