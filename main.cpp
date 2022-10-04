@@ -8,7 +8,7 @@ int main(){
     int height = 1600;
     int length = 2560;
     
-    // timer
+    
     sf::Text text;
     sf::Font font;
     if (!font.loadFromFile("font.ttf")){
@@ -35,6 +35,7 @@ int main(){
     // create player
     sf::RectangleShape player(sf::Vector2f(60.f,100.f));
     player.setPosition((length/2), height/2+40);
+    player.setTexture(&texture);
     sf::Vector2f position = player.getPosition();
         // get the bounding box of the entity
         sf::FloatRect boundingBox = player.getGlobalBounds();
