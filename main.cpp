@@ -99,9 +99,10 @@ int main(){
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {if (position.y<(height-200)){player.move(0.f, 1.f);}}
 
+
         // gravity
         if (position.y<(height-200)){
-
+            player.move(0.f,0.5f);
         }
 
         elapsed += clock.restart();
