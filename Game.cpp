@@ -8,13 +8,13 @@ using namespace std;
 
 Game::Game() {
   this->gameName = "Platform Game";
-  this->gameSpeed = 0.05;
-  this->drag = 0.05;    // force oposing velocity
-  this->damping = 0.1;  // loss in energy bouncing off walls
+  this->gameSpeed = 0.01;
+  this->drag = 0.03;    // force oposing velocity
+  this->damping = 0.9;  // loss in energy bouncing off walls
   this->gravity = 2;
-  this->jumpPower = 20;
+  this->jumpPower = 30;
 
-  win.create(sf::VideoMode(1200, 800), gameName);
+  win.create(sf::VideoMode(2000, 1500), gameName);
 }
 
 void Game::readInputs(Player *player) {
@@ -79,13 +79,12 @@ void Game::collision(Entity *entity) {
     entity->setPos(sf::Vector2f(0, entity->position.y));
   }
 
-  if (entity->position.y > win.getSize().y - entity->size.y - 0.0000001) {
-    entity->onPlatform = true;
-  } else
-  {
+  if (entity->position.y > win.getSize().y - entity->size.y - 0.0000001 ||
+      entity->position.x > win.getSize().x - entity->size.x - 0.0000001
+    || entity->position.x < 0 + 0.000001) { entity->onPlatform = true; }
+  else {
     entity->onPlatform = false;
   }
-  
 }
 
 void Game::run() {

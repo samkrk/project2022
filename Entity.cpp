@@ -6,7 +6,7 @@ Entity::Entity() {
   body.setSize(size);
   body.setFillColor(sf::Color::Magenta);
 
-  speed = 1.9;
+  speed = 2;
   onPlatform = false;
 
   position = sf::Vector2f(0, 0);
