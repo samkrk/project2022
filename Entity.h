@@ -13,6 +13,7 @@ class Entity {
   sf::Vector2f velocity;
   sf::Vector2f acceleration;
   bool isAlive;
+  bool onPlatform;
 
   Entity();
 

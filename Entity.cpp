@@ -2,11 +2,12 @@
 #include <SFML/Graphics.hpp>
 
 Entity::Entity() {
-  size = sf::Vector2f(80,80);
+  size = sf::Vector2f(50,50);
   body.setSize(size);
   body.setFillColor(sf::Color::Magenta);
 
-  speed = 2;
+  speed = 1.9;
+  onPlatform = false;
 
   position = sf::Vector2f(0, 0);
   velocity = sf::Vector2f(0,0);

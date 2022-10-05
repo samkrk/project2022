@@ -18,6 +18,7 @@ private:
   float drag;
   float damping;
   float gravity;
+  float jumpPower;
  public:
   Game();
   void readInputs(Player *player);
