@@ -25,15 +25,15 @@ int main(){
     while (window.isOpen()) {
  
         sf::Event Event;
-        const float moveSpeed = 0.2;
+        const float moveSpeed = 0.1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             player.move(sf::Vector2f(0,-moveSpeed));
             isJumping = true;
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             player.move(sf::Vector2f(moveSpeed,0));
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             player.move(sf::Vector2f(-moveSpeed,0));
         }
 
