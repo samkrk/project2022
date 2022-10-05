@@ -1,10 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Player.h"
+
 using namespace std;
 
 int main(){
-<<<<<<< HEAD
     // size of my screen  
     int height = 1600;
     int length = 2560;
@@ -49,21 +48,12 @@ int main(){
     // create platform 
     sf::RectangleShape platform(sf::Vector2f(500,40));
     platform.setPosition(sf::Vector2f(length/2,height/2));
-=======
-    // sf::RenderWindow window;
-    // sf::Vector2i centerWindow((sf::VideoMode::getDesktopMode().width / 2) - 445, (sf::VideoMode::getDesktopMode().height / 2) - 480);
-    sf::RenderWindow window(sf::VideoMode::getDesktopMode(),"Window",sf::Style::Fullscreen);
-    window.create(sf::VideoMode(900, 900), "SFML Gravity", sf::Style::Titlebar | sf::Style::Close);
-    // window.setPosition(centerWindow);
-    window.setKeyRepeatEnabled(true);
->>>>>>> 7aaa11ee813583f48de9ce13c34eba400e52e954
 
-    //Player Object:
-    Player player(sf::Vector2f(40,40));
-    player.setPos(sf::Vector2f(50,700));
+    // create ground 
+    sf::RectangleShape ground(sf::Vector2f(length,5));
+    ground.setPosition(sf::Vector2f(0,1500));
 
 
-<<<<<<< HEAD
     // main game loop
     sf::Clock clock;
     sf::Time elapsed;
@@ -88,29 +78,19 @@ int main(){
                                 window.create(sf::VideoMode(length,height),"Window",sf::Style::Fullscreen);
                                 isFullscreen = true;
                             }
-=======
-    //Gravity Variables:
-    const int groundHeight = 700;
-    const float gravitySpeed = 0.3;
-    bool isJumping = false;
->>>>>>> 7aaa11ee813583f48de9ce13c34eba400e52e954
 
-    //Main Loop:
-    while (window.isOpen()) {
- 
-        sf::Event Event;
-        const float moveSpeed = 0.1;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            player.move(sf::Vector2f(0,-moveSpeed));
-            isJumping = true;
+                        break;
+                        default:
+                        break;
+                    }
+                break;
+                case sf::Event::Closed:
+                    window.close();
+                break;
+                default:
+                break;
+            } 
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            player.move(sf::Vector2f(moveSpeed,0));
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            player.move(sf::Vector2f(-moveSpeed,0));
-        }
-<<<<<<< HEAD
         // movement of player
         position = player.getPosition();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -121,40 +101,26 @@ int main(){
             {if (position.y>0){v = -1;}}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {if (position.y<(height-200)){v = 1;}}
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ||
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
-              sf::Keyboard::isKeyPressed(sf::Keyboard::Down) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             player.move(0.f, v);
           }
         // gravity
         if (position.y<(height-200)){
           v += a;
           player.move(0.f, v);
-=======
-
-        //Event Loop:
-        while (window.pollEvent(Event)) {
-            switch (Event.type) {
- 
-            case sf::Event::Closed:
-                window.close();
- 
-            case sf::Event::KeyReleased:
-                isJumping = false;
-            default:;
-            }
         }
 
-        
-        //Gravity Logic:
-        if (player.getY() < groundHeight && isJumping == false) {
-            player.move(sf::Vector2f(0,gravitySpeed));
->>>>>>> 7aaa11ee813583f48de9ce13c34eba400e52e954
-        }
+        elapsed += clock.restart();
+        text.setString(to_string(elapsed.asSeconds()));
 
-
-        window.clear();
-        player.drawTo(window);
-        window.display();
-        }
+        // drawing everything 
+        window.clear(sf::Color::Black); // clear window 
+        window.draw(sprite);
+        window.draw(player);
+        window.draw(platform);
+        window.draw(ground);
+        window.draw(text);
+        window.display(); // display 
+    }
+    return 0;
 }
