@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
 #include "Player.h"
+#include "Bullet.h"
 #include <string>
 
 class Game
@@ -15,6 +16,7 @@ private:
 
   Player player;
 
+
   float drag;
   float damping;
   float gravity;
@@ -25,6 +27,7 @@ private:
   void readInputs(Player *player);
   void collision(Entity *entity);
   void calcPosition(Entity *entity);
+  void calcPositionDrag(Entity *entity);
   void run();
 
 };

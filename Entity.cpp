@@ -12,10 +12,12 @@ Entity::Entity() {
   onLWall = false;
   onRWall = false;
 
+  ofScreenPos = sf::Vector2f(-100, -100);
+  zeroVec = sf::Vector2f(0, 0);
 
-  position = sf::Vector2f(0, 0);
-  velocity = sf::Vector2f(0,0);
-  acceleration = sf::Vector2f(0, 0);
+  position = zeroVec;
+  velocity = zeroVec;
+  acceleration = zeroVec;
 }
 
 void Entity::draw(sf::RenderWindow &window) { window.draw(body); }

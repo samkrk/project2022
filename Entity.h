@@ -9,6 +9,8 @@ class Entity {
   sf::Vector2f size;
   int health;
   float speed;
+  sf::Vector2f ofScreenPos;
+  sf::Vector2f zeroVec;
   sf::Vector2f position;
   sf::Vector2f velocity;
   sf::Vector2f acceleration;
