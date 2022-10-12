@@ -3,7 +3,7 @@
 #include "Player.h"
 
 Player::Player() {
-  this->magSize = 10;
+  this->magSize = 20;
   this->bulletIndex = 0;
   bullets = new Bullet[magSize];
 
