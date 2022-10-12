@@ -14,6 +14,9 @@ class Entity {
   sf::Vector2f acceleration;
   bool isAlive;
   bool onPlatform;
+  bool onGround;
+  bool onLWall;
+  bool onRWall;
 
   Entity();
 

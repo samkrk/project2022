@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <math.h>
+
 #include <iostream>
 
 #include "Entity.h"
@@ -8,11 +10,12 @@ using namespace std;
 
 Game::Game() {
   this->gameName = "Platform Game";
-  this->gameSpeed = 0.01;
-  this->drag = 0.03;    // force oposing velocity
-  this->damping = 0.9;  // loss in energy bouncing off walls
-  this->gravity = 2;
-  this->jumpPower = 30;
+  this->gameSpeed = 0.02;
+  this->drag = 0.0001;  // force oposing velocity
+  this->damping = 0.3;  // loss in energy bouncing off walls
+  this->gravity = 2.2;
+  this->jumpPower = 60;
+  this->jumpPowerHoz = 20;
 
   win.create(sf::VideoMode(2000, 1500), gameName);
 }
@@ -35,14 +38,26 @@ void Game::readInputs(Player *player) {
       sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
     player->addAcc(sf::Vector2f(0, player->speed));
   }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && player->onPlatform){
-    player->setVel(sf::Vector2f(0, -this->jumpPower*player->speed));
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    if (player->onGround) {
+      player->setVel(sf::Vector2f(0, -this->jumpPower * player->speed));
+    }
+    if (player->onLWall) {
+      player->setVel(player->speed *
+                     sf::Vector2f(this->jumpPowerHoz, -this->jumpPower));
+    }
+    if (player->onRWall) {
+      player->setVel(player->speed *
+                     sf::Vector2f(-this->jumpPowerHoz, -this->jumpPower));
+    }
   }
 }
 
 void Game::calcPosition(Entity *entity) {
-  entity->addAcc(-entity->velocity *
-                 this->drag);  // friction F = kv, therefore a = kv
+  float velocityMag = pow(entity->velocity.x, 2);
+  velocityMag += pow(entity->velocity.y, 2);
+  entity->addAcc(-entity->velocity * this->drag *
+                 velocityMag);  // friction F = kv, therefore a = kv
   entity->addVel(entity->acceleration * this->gameSpeed);
   entity->addPos(entity->velocity * this->gameSpeed);
   entity->update();
@@ -72,18 +87,28 @@ void Game::collision(Entity *entity) {
     entity->setPos(
         sf::Vector2f(win.getSize().x - entity->size.x, entity->position.y));
   }
-  //left
+  // left
   if (entity->position.x < 0) {
     entity->setVel(damping *
                    sf::Vector2f(-entity->velocity.x, entity->velocity.y));
     entity->setPos(sf::Vector2f(0, entity->position.y));
   }
 
-  if (entity->position.y > win.getSize().y - entity->size.y - 0.0000001 ||
-      entity->position.x > win.getSize().x - entity->size.x - 0.0000001
-    || entity->position.x < 0 + 0.000001) { entity->onPlatform = true; }
-  else {
+  if (entity->position.y > win.getSize().y - entity->size.y - 0.0000001) {
+    entity->onPlatform = true;
+    entity->onGround = true;
+  } else if (entity->position.x >
+             win.getSize().x - entity->size.x - 0.0000001) {
+    entity->onPlatform = true;
+    entity->onRWall = true;
+  } else if (entity->position.x < 0 + 0.000001) {
+    entity->onPlatform = true;
+    entity->onLWall = true;
+  } else {
     entity->onPlatform = false;
+    entity->onGround = false;
+    entity->onLWall = false;
+    entity->onRWall = false;
   }
 }
 

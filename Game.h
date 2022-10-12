@@ -19,6 +19,7 @@ private:
   float damping;
   float gravity;
   float jumpPower;
+  float jumpPowerHoz;
  public:
   Game();
   void readInputs(Player *player);

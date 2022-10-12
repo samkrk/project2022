@@ -8,6 +8,10 @@ Entity::Entity() {
 
   speed = 2;
   onPlatform = false;
+  onGround = false;
+  onLWall = false;
+  onRWall = false;
+
 
   position = sf::Vector2f(0, 0);
   velocity = sf::Vector2f(0,0);
