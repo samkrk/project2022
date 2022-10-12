@@ -9,6 +9,7 @@
 #include "Object.h"
 #include "Platform.h"
 #include "Player.h"
+#include "Spring.h"
 
 class Game {
  public:
@@ -31,7 +32,10 @@ class Game {
   Game();
 
   void createLevel();  // for adding platforms and enemies
-  void newPlatform(sf::Vector2f size, sf::Vector2f origin); // deals with dynamic mem
+  void addPlatform(Platform newPlatform);
+  // deals with dynamic mem ^^
+  void newPlatform(sf::Vector2f size, sf::Vector2f origin);
+  void newSpring(sf::Vector2f size, sf::Vector2f origin);
 
   void readInputs(Player *player);
   void collisionWithWindow(Entity *entity);

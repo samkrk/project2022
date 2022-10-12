@@ -12,7 +12,7 @@ Game::Game() {
   this->drag = 0.0001;  // force oposing velocity
   this->damping = 0.3;  // loss in energy bouncing off walls
   this->gravity = 2.2;
-  this->jumpPower = 60;
+  this->jumpPower = 30;
   this->jumpPowerHoz = 20;
 
   platforms = NULL;
@@ -23,15 +23,16 @@ Game::Game() {
 
 void Game::createLevel() {
   int thickness = 300;
-  newPlatform(sf::Vector2f(100,thickness),sf::Vector2f(100,500));
+  //newPlatform(sf::Vector2f(100,thickness),sf::Vector2f(100,500));
   newPlatform(sf::Vector2f(300, thickness), sf::Vector2f(200, 1200));
   newPlatform(sf::Vector2f(400, thickness), sf::Vector2f(300, 1000));
   newPlatform(sf::Vector2f(600, thickness), sf::Vector2f(800, 800));
   newPlatform(sf::Vector2f(1000, thickness), sf::Vector2f(900, 100));
+  newSpring(sf::Vector2f(20, thickness), sf::Vector2f(20, 600));
+  newSpring(sf::Vector2f(400, 10), sf::Vector2f(140, 800));
 }
 
-void Game::newPlatform(sf::Vector2f size, sf::Vector2f origin) {
-  Platform newPlatform(size, origin);
+void Game::addPlatform(Platform newPlatform) {
   Platform *oldPlatfroms = platforms;
   this->numPlatforms++;
   this->platforms = new Platform[numPlatforms];
@@ -41,6 +42,16 @@ void Game::newPlatform(sf::Vector2f size, sf::Vector2f origin) {
     platforms[i] = oldPlatfroms[i];
   }
   platforms[numPlatforms - 1] = newPlatform;
+}
+
+void Game::newPlatform(sf::Vector2f size, sf::Vector2f origin) {
+  Platform newPlatform(size, origin);
+  addPlatform(newPlatform);
+}
+
+void Game::newSpring(sf::Vector2f size, sf::Vector2f origin) {
+  Spring newSpring(size,origin);
+  addPlatform(newSpring);
 }
 
 void Game::readInputs(Player *player) {
