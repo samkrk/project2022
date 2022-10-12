@@ -2,34 +2,42 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
-#include "Player.h"
-#include "Bullet.h"
 #include <string>
 
-class Game
-{
-private:
+#include "Bullet.h"
+#include "Entity.h"
+#include "Object.h"
+#include "Platform.h"
+#include "Player.h"
+
+class Game {
+ public:
   float gameSpeed;
   std::string gameName;
   sf::RenderWindow win;
 
-  Player player;
+  Platform *platforms;
 
+  int numPlatforms;
+
+  Player player;
 
   float drag;
   float damping;
   float gravity;
   float jumpPower;
   float jumpPowerHoz;
- public:
+
   Game();
+
+  void createLevel();  // for adding platforms and enemies
+  void newPlatform(sf::Vector2f size, sf::Vector2f origin); // deals with dynamic mem
+
   void readInputs(Player *player);
-  void collision(Entity *entity);
+  void collisionWithWindow(Entity *entity);
   void calcPosition(Entity *entity);
   void calcPositionDrag(Entity *entity);
   void run();
-
 };
 
 #endif

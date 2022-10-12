@@ -4,8 +4,6 @@
 
 #include <iostream>
 
-#include "Entity.h"
-#include "Player.h"
 using namespace std;
 
 Game::Game() {
@@ -17,12 +15,40 @@ Game::Game() {
   this->jumpPower = 60;
   this->jumpPowerHoz = 20;
 
+  platforms = NULL;
+  this->numPlatforms = 0;
+
   win.create(sf::VideoMode(1800, 1500), gameName);
+}
+
+void Game::createLevel() {
+  int thickness = 300;
+  newPlatform(sf::Vector2f(100,thickness),sf::Vector2f(100,500));
+  newPlatform(sf::Vector2f(300, thickness), sf::Vector2f(200, 1200));
+  newPlatform(sf::Vector2f(400, thickness), sf::Vector2f(300, 1000));
+  newPlatform(sf::Vector2f(600, thickness), sf::Vector2f(800, 800));
+  newPlatform(sf::Vector2f(1000, thickness), sf::Vector2f(900, 100));
+}
+
+void Game::newPlatform(sf::Vector2f size, sf::Vector2f origin) {
+  Platform newPlatform(size, origin);
+  Platform *oldPlatfroms = platforms;
+  this->numPlatforms++;
+  this->platforms = new Platform[numPlatforms];
+
+  // copy oldplatforms back to platfroms and add newplatfrom
+  for (int i = 0; i < numPlatforms - 1; i++) {
+    platforms[i] = oldPlatfroms[i];
+  }
+  platforms[numPlatforms - 1] = newPlatform;
 }
 
 void Game::readInputs(Player *player) {
   // player movement input
+
   player->setAcc(sf::Vector2f(0, gravity));
+
+  
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
     player->addAcc(sf::Vector2f(-player->speed, 0));
   }
@@ -30,6 +56,7 @@ void Game::readInputs(Player *player) {
       sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
     player->addAcc(sf::Vector2f(player->speed, 0));
   }
+  // probably get rid of up with jump command now
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
       sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
     player->addAcc(sf::Vector2f(0, -player->speed));
@@ -73,7 +100,8 @@ void Game::readInputs(Player *player) {
     }
     player->reload();
     std::cout << "Reloading: ";
-    std::cout << (1000-player->timeSinceShot)/1000 << "sec remaining" << std::endl;
+    std::cout << (1000 - player->timeSinceShot) / 1000 << "sec remaining"
+              << std::endl;
   }
 }
 
@@ -90,7 +118,7 @@ void Game::calcPositionDrag(Entity *entity) {
   calcPosition(entity);
 }
 
-void Game::collision(Entity *entity) {
+void Game::collisionWithWindow(Entity *entity) {
   // floor
   if (entity->position.y > win.getSize().y - entity->size.y) {
     entity->setPos(
@@ -140,6 +168,8 @@ void Game::collision(Entity *entity) {
 }
 
 void Game::run() {
+  // spawn and draw nessasery objects
+    createLevel();
   // game loop
   while (win.isOpen()) {
     sf::Event event;
@@ -149,7 +179,11 @@ void Game::run() {
 
     // update player
 
-    collision(&player);
+    collisionWithWindow(&player);
+
+    for (int i = 0; i < numPlatforms; i++) {
+      platforms[i].collisionPhysics(&player);
+    }
 
     readInputs(&player);
 
@@ -161,12 +195,19 @@ void Game::run() {
       calcPosition(&player.bullets[i]);
     }
 
+
     // display objects to screen
 
     this->win.clear();
+    // platforms
+    for (int i = 0; i < numPlatforms; i++) {
+      win.draw(platforms[i].body);
+    }
 
+    // player
     win.draw(player.body);
 
+    // bullets
     for (int i = 0; i < player.magSize; i++) {
       win.draw(player.bullets[i].body);
     }
