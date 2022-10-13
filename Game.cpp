@@ -18,6 +18,9 @@ Game::Game() {
   platforms = NULL;
   this->numPlatforms = 0;
 
+  enemies = NULL;
+  this->numEnemies = 0;
+
   win.create(sf::VideoMode(1800, 1500), gameName);
 }
 
@@ -30,6 +33,14 @@ void Game::createLevel() {
   newPlatform(sf::Vector2f(1000, thickness), sf::Vector2f(900, 100));
   newSpring(sf::Vector2f(20, thickness), sf::Vector2f(20, 600));
   newSpring(sf::Vector2f(400, 10), sf::Vector2f(140, 800));
+
+  for (int i = 400; i < 1600; i+=100)
+  {
+    newEnemy(sf::Vector2f(i, i));
+  }
+  
+  
+
 }
 
 void Game::addPlatform(Platform newPlatform) {
@@ -52,6 +63,23 @@ void Game::newPlatform(sf::Vector2f size, sf::Vector2f origin) {
 void Game::newSpring(sf::Vector2f size, sf::Vector2f origin) {
   Spring newSpring(size,origin);
   addPlatform(newSpring);
+}
+
+void Game::addEnemy(Enemy newEnemy){
+  Enemy *oldEnemies = this->enemies;
+  this->numEnemies++;
+  this->enemies = new Enemy[numEnemies];
+
+  // copy oldplatforms back to platfroms and add newplatfrom
+  for (int i = 0; i < numEnemies - 1; i++) {
+    enemies[i] = oldEnemies[i];
+  }
+  enemies[numEnemies - 1] = newEnemy;
+}
+
+void Game::newEnemy(sf::Vector2f origin){
+  Enemy newEnemy(origin);
+  addEnemy(newEnemy);
 }
 
 void Game::readInputs(Player *player) {
@@ -200,6 +228,21 @@ void Game::run() {
 
     calcPositionDrag(&player);
 
+    // update enemies
+
+    for (int p = 0; p < numPlatforms; p++) {
+      for (int e = 0; e < numEnemies; e++) {
+        platforms[p].collisionPhysics(&enemies[e]);
+      }
+    }
+
+    for (int i = 0; i < numEnemies; i++)
+    {
+      collisionWithWindow(&enemies[i]);
+      enemies[i].move(&player);
+      calcPositionDrag(&enemies[i]);
+    }
+
     // update bullets
 
     for (int i = 0; i < player.magSize; i++) {
@@ -217,6 +260,14 @@ void Game::run() {
 
     // player
     win.draw(player.body);
+
+    // enemies
+
+    for (int i = 0; i < numEnemies; i++)
+    {
+      win.draw(enemies[i].body);
+    }
+    
 
     // bullets
     for (int i = 0; i < player.magSize; i++) {
