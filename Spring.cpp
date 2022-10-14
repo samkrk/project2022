@@ -6,7 +6,7 @@
 Spring::Spring() { Spring(this->size, this->position); }
 
 Spring::Spring(sf::Vector2f size, sf::Vector2f origin) {
-  fillColor = sf::Color::Yellow;
+  fillColor = sf::Color(100,196,75);
   this->body.setFillColor(fillColor);
   this->damping = 10;
 

@@ -28,6 +28,14 @@ Game::Game() {
 }
 
 void Game::createLevel() {
+  platforms = NULL;
+  this->numPlatforms = 0;
+
+  enemies = NULL;
+  this->numEnemies = 0;
+
+  coins = NULL;
+  this->numCoins = 0;
   int thickness = 300;
   //newPlatform(sf::Vector2f(100,thickness),sf::Vector2f(100,500));
   newPlatform(sf::Vector2f(300, thickness), sf::Vector2f(200, 1200));
@@ -247,7 +255,12 @@ void Game::updateObjects() {
     readInputs(&player);
 
     calcPositionDrag(&player);
+  } else
+  {
+    createLevel();
+    player.respawn();
   }
+  
 
   // update enemies
 

@@ -24,6 +24,7 @@ class Player : public Entity {
  void reload();
 
  void isKilled(Entity *enemy);
+ void respawn();
 };
 
 #endif

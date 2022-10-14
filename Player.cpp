@@ -4,6 +4,13 @@
 #include <iostream>
 
 Player::Player() {
+  size = sf::Vector2f(50, 50);
+  body.setSize(size);
+  fillColor = sf::Color(222, 48, 34);
+  body.setFillColor(fillColor);
+  body.setOutlineColor(sf::Color::White);
+  body.setOutlineThickness(2.f);
+
   this->magSize = 20;
   this->bulletIndex = 0;
   bullets = new Bullet[magSize];
@@ -44,6 +51,11 @@ void Player::isKilled(Entity *enemy) {
     this->isAlive = false;
     this->position = sf::Vector2f(200, 200);
     update();
-    this->isAlive = true;
   }
+}
+
+void Player::respawn() {
+  this->isAlive = true;
+  this->bulletIndex = 0;
+  bullets = new Bullet[magSize];
 }

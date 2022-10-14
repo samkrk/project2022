@@ -5,7 +5,7 @@ Bullet::Bullet() {
   this->position = sf::Vector2f(-100,-100);
   this->size = sf::Vector2f(20,10);
   this->body.setSize(size);
-  this->fillColor = sf::Color::Red;
+  this->fillColor = sf::Color(223,68,36);
   this->body.setFillColor(fillColor);
   this->speed = 20;
 }

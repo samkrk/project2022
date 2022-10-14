@@ -15,7 +15,7 @@ Enemy::Enemy(sf::Vector2f origin) {
   this->size = sf::Vector2f(40, 40);
   body.setSize(this->size);
   this->position = origin;
-  this->fillColor = sf::Color::Cyan;
+  this->fillColor = sf::Color(165,106,75);
   this->body.setFillColor(fillColor);
   this->setVel(sf::Vector2f(-1, -1));
   this->setAcc(sf::Vector2f(0, 1));
