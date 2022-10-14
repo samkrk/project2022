@@ -12,6 +12,14 @@ Level::Level() {
   this->numCoinsCollected = 0;
 }
 
+bool Level::isFinished() {
+  if (numCoinsCollected == numCoins)
+  {
+    return true;
+  }
+  return false;
+}
+
 void Level::addPlatform(Platform newPlatform) {
   Platform *oldPlatfroms = platforms;
   this->numPlatforms++;

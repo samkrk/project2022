@@ -27,6 +27,8 @@ public:
 
  Level();
 
+ bool isFinished();
+
  void addPlatform(Platform newPlatform);
  void newPlatform(sf::Vector2f size, sf::Vector2f origin);
  void newSpring(sf::Vector2f size, sf::Vector2f origin);
@@ -36,6 +38,7 @@ public:
 
  void addCoin(Coin newCoin);
  void newCoin(sf::Vector2f origin);
+
 };
 
 

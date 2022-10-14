@@ -65,7 +65,28 @@ void Game::createLevels() {
   }
 
   // level 2
+  addLevel(newLevel);
 
+  levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
+                                    sf::Vector2f(200, 1200));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(400, thickness),
+                                    sf::Vector2f(300, 1000));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(600, thickness),
+                                    sf::Vector2f(800, 800));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(1000, thickness),
+                                    sf::Vector2f(900, 100));
+  levels[numLevels - 1].newSpring(sf::Vector2f(20, thickness),
+                                  sf::Vector2f(20, 600));
+  levels[numLevels - 1].newSpring(sf::Vector2f(400, 10),
+                                  sf::Vector2f(140, 800));
+
+  for (int i = 400; i < 1600; i += 300) {
+    levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
+  }
+
+  for (int i = 100; i < 1600; i += 200) {
+    levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
+  }
 }
 
 void Game::readInputs(Player *player) {
@@ -193,18 +214,18 @@ void Game::collisionWithWindow(Entity *entity) {
 
 void Game::updateObjects() {
   // update player
-  std::cout << "1" << std::endl;
+
   for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
     player.isKilled(&levels[levelIndex].enemies[i]);
   }
-  std::cout << "2" << std::endl;
+
   if (player.isAlive) {
     collisionWithWindow(&player);
 
     for (int i = 0; i < levels[levelIndex].numPlatforms; i++) {
       levels[levelIndex].platforms[i].collisionPhysics(&player);
     }
-    std::cout << "3" << std::endl;
+    
     readInputs(&player);
 
     calcPositionDrag(&player);
@@ -214,11 +235,11 @@ void Game::updateObjects() {
   }
 
   // update enemies
-  std::cout << "4" << std::endl;
+
   for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
     levels[levelIndex].enemies[i].isShot(&player);
   }
-  std::cout << "5" << std::endl;
+
   for (int p = 0; p < levels[levelIndex].numPlatforms; p++) {
     for (int e = 0; e < levels[levelIndex].numEnemies; e++) {
       if (levels[levelIndex].enemies[e].isAlive) {
@@ -227,7 +248,7 @@ void Game::updateObjects() {
       }
     }
   }
-  std::cout << "6" << std::endl;
+
   for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
     if (levels[levelIndex].enemies[i].isAlive) {
       collisionWithWindow(&levels[levelIndex].enemies[i]);
@@ -288,6 +309,12 @@ void Game::run() {
     while (win.pollEvent(event)) {
       if (event.type == sf::Event::Closed) win.close();
     }
+
+    if (levels[levelIndex].isFinished()) {
+      levelIndex++;
+    }
+    
+    
 
     updateObjects();
 
