@@ -35,10 +35,13 @@ void Game::addLevel(Level newLevel) {
 }
 
 void Game::createLevels() {
+  levels = NULL;
+  numLevels = 0;
+  int levelIndex = 0;
   // level 1
   Level newLevel;
   addLevel(newLevel);
-  std::cout << numLevels << std::endl;
+
   int thickness = 300;
   levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
                                     sf::Vector2f(200, 1200));
@@ -60,6 +63,9 @@ void Game::createLevels() {
   for (int i = 100; i < 1600; i += 50) {
     levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
   }
+
+  // level 2
+
 }
 
 void Game::readInputs(Player *player) {
@@ -282,6 +288,7 @@ void Game::run() {
     while (win.pollEvent(event)) {
       if (event.type == sf::Event::Closed) win.close();
     }
+
     updateObjects();
 
     drawObjects();
