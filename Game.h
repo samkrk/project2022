@@ -26,16 +26,6 @@ class Game {
   int numLevels;
   int levelIndex;
 
-  Platform *platforms;
-  int numPlatforms;
-
-  Enemy *enemies;
-  int numEnemies;
-
-  Coin *coins;
-  int numCoins;
-  int numCoinsCollected;
-
   float drag;
   float damping;
   float gravity;
