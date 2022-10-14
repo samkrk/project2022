@@ -23,39 +23,53 @@ Game::Game() {
 
   coins = NULL;
   this->numCoins = 0;
+  this->numCoinsCollected = 0;
+
+  levels = NULL;
+  numLevels = 0;
+  int levelIndex = 0;
 
   win.create(sf::VideoMode(1800, 1500), gameName);
 }
 
-void Game::createLevel() {
-  platforms = NULL;
-  this->numPlatforms = 0;
+void Game::addLevel(Level newLevel) {
+  Level *oldLevels = levels;
+  this->numLevels++;
+  this->levels = new Level[numLevels];
 
-  enemies = NULL;
-  this->numEnemies = 0;
+  // copy oldplatforms back to platfroms and add newplatfrom
+  for (int i = 0; i < numLevels - 1; i++) {
+    levels[i] = oldLevels[i];
+  }
+  levels[numLevels - 1] = newLevel;
+}
 
-  coins = NULL;
-  this->numCoins = 0;
+void Game::createLevels() {
+  // level 1
+  Level newLevel;
+  addLevel(newLevel);
+  std::cout << numLevels << std::endl;
   int thickness = 300;
-  //newPlatform(sf::Vector2f(100,thickness),sf::Vector2f(100,500));
-  newPlatform(sf::Vector2f(300, thickness), sf::Vector2f(200, 1200));
-  newPlatform(sf::Vector2f(400, thickness), sf::Vector2f(300, 1000));
-  newPlatform(sf::Vector2f(600, thickness), sf::Vector2f(800, 800));
-  newPlatform(sf::Vector2f(1000, thickness), sf::Vector2f(900, 100));
-  newSpring(sf::Vector2f(20, thickness), sf::Vector2f(20, 600));
-  newSpring(sf::Vector2f(400, 10), sf::Vector2f(140, 800));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
+                                    sf::Vector2f(200, 1200));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(400, thickness),
+                                    sf::Vector2f(300, 1000));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(600, thickness),
+                                    sf::Vector2f(800, 800));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(1000, thickness),
+                                    sf::Vector2f(900, 100));
+  levels[numLevels - 1].newSpring(sf::Vector2f(20, thickness),
+                                  sf::Vector2f(20, 600));
+  levels[numLevels - 1].newSpring(sf::Vector2f(400, 10),
+                                  sf::Vector2f(140, 800));
 
-  for (int i = 400; i < 1600; i+=100)
-  {
-    newEnemy(sf::Vector2f(i, i));
+  for (int i = 400; i < 1600; i += 100) {
+    levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
   }
-  
-  for (int i = 100; i < 1600; i+=50)
-  {
-    newCoin(sf::Vector2f(i,500));
-  }
-  
 
+  for (int i = 100; i < 1600; i += 50) {
+    levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
+  }
 }
 
 void Game::addPlatform(Platform newPlatform) {
@@ -76,11 +90,11 @@ void Game::newPlatform(sf::Vector2f size, sf::Vector2f origin) {
 }
 
 void Game::newSpring(sf::Vector2f size, sf::Vector2f origin) {
-  Spring newSpring(size,origin);
+  Spring newSpring(size, origin);
   addPlatform(newSpring);
 }
 
-void Game::addEnemy(Enemy newEnemy){
+void Game::addEnemy(Enemy newEnemy) {
   Enemy *oldEnemies = this->enemies;
   this->numEnemies++;
   this->enemies = new Enemy[numEnemies];
@@ -92,7 +106,7 @@ void Game::addEnemy(Enemy newEnemy){
   enemies[numEnemies - 1] = newEnemy;
 }
 
-void Game::newEnemy(sf::Vector2f origin){
+void Game::newEnemy(sf::Vector2f origin) {
   Enemy newEnemy(origin);
   addEnemy(newEnemy);
 }
@@ -119,7 +133,6 @@ void Game::readInputs(Player *player) {
 
   player->setAcc(sf::Vector2f(0, gravity));
 
-  
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
     player->addAcc(sf::Vector2f(-player->speed, 0));
   }
@@ -240,53 +253,52 @@ void Game::collisionWithWindow(Entity *entity) {
 
 void Game::updateObjects() {
   // update player
-
-  for (int i = 0; i < numEnemies; i++) {
-    player.isKilled(&enemies[i]);
+  std::cout << "1" << std::endl;
+  for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
+    player.isKilled(&levels[levelIndex].enemies[i]);
   }
-
+  std::cout << "2" << std::endl;
   if (player.isAlive) {
     collisionWithWindow(&player);
 
-    for (int i = 0; i < numPlatforms; i++) {
-      platforms[i].collisionPhysics(&player);
+    for (int i = 0; i < levels[levelIndex].numPlatforms; i++) {
+      levels[levelIndex].platforms[i].collisionPhysics(&player);
     }
-
+    std::cout << "3" << std::endl;
     readInputs(&player);
 
     calcPositionDrag(&player);
-  } else
-  {
-    createLevel();
+  } else {
+    createLevels();
     player.respawn();
   }
-  
 
   // update enemies
-
-  for (int i = 0; i < numEnemies; i++) {
-    enemies[i].isShot(&player);
+  std::cout << "4" << std::endl;
+  for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
+    levels[levelIndex].enemies[i].isShot(&player);
   }
-
-  for (int p = 0; p < numPlatforms; p++) {
-    for (int e = 0; e < numEnemies; e++) {
-      if (enemies[e].isAlive) {
-        platforms[p].collisionPhysics(&enemies[e]);
+  std::cout << "5" << std::endl;
+  for (int p = 0; p < levels[levelIndex].numPlatforms; p++) {
+    for (int e = 0; e < levels[levelIndex].numEnemies; e++) {
+      if (levels[levelIndex].enemies[e].isAlive) {
+        levels[levelIndex].platforms[p].collisionPhysics(
+            &levels[levelIndex].enemies[e]);
       }
     }
   }
-
-  for (int i = 0; i < numEnemies; i++) {
-    if (enemies[i].isAlive) {
-      collisionWithWindow(&enemies[i]);
-      enemies[i].move(&player);
-      calcPositionDrag(&enemies[i]);
+  std::cout << "6" << std::endl;
+  for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
+    if (levels[levelIndex].enemies[i].isAlive) {
+      collisionWithWindow(&levels[levelIndex].enemies[i]);
+      levels[levelIndex].enemies[i].move(&player);
+      calcPositionDrag(&levels[levelIndex].enemies[i]);
     }
   }
   // update coins
 
-  for (int i = 0; i < numCoins; i++) {
-    coins[i].playerCollect(&player);
+  for (int i = 0; i < levels[levelIndex].numCoins; i++) {
+    levels[levelIndex].coins[i].playerCollect(&player);
   }
 
   // update bullets
@@ -301,8 +313,8 @@ void Game::drawObjects() {
 
   this->win.clear();
   // platforms
-  for (int i = 0; i < numPlatforms; i++) {
-    win.draw(platforms[i].body);
+  for (int i = 0; i < levels[levelIndex].numPlatforms; i++) {
+    win.draw(levels[levelIndex].platforms[i].body);
   }
 
   // player
@@ -310,12 +322,12 @@ void Game::drawObjects() {
 
   // enemies
 
-  for (int i = 0; i < numEnemies; i++) {
-    win.draw(enemies[i].body);
+  for (int i = 0; i < levels[levelIndex].numEnemies; i++) {
+    win.draw(levels[levelIndex].enemies[i].body);
   }
   // coins
-  for (int i = 0; i < numCoins; i++) {
-    win.draw(coins[i].body);
+  for (int i = 0; i < levels[levelIndex].numCoins; i++) {
+    win.draw(levels[levelIndex].coins[i].body);
   }
 
   // bullets
@@ -328,17 +340,17 @@ void Game::drawObjects() {
 
 void Game::run() {
   // spawn and draw nessasery objects
-    createLevel();
+  createLevels();
+  levelIndex = 0;
   // game loop
   while (win.isOpen()) {
     sf::Event event;
     while (win.pollEvent(event)) {
       if (event.type == sf::Event::Closed) win.close();
     }
-
     updateObjects();
 
     drawObjects();
-  
+    
   }
 }

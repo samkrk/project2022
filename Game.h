@@ -5,13 +5,14 @@
 #include <string>
 
 #include "Bullet.h"
+#include "Coin.h"
 #include "Enemy.h"
 #include "Entity.h"
 #include "Object.h"
 #include "Platform.h"
 #include "Player.h"
 #include "Spring.h"
-#include "Coin.h"
+#include "Level.h"
 
 class Game {
  public:
@@ -19,16 +20,21 @@ class Game {
   std::string gameName;
   sf::RenderWindow win;
 
+  Player player;
+
+  Level *levels;
+  int numLevels;
+  int levelIndex;
+
   Platform *platforms;
   int numPlatforms;
-
-  Player player;
 
   Enemy *enemies;
   int numEnemies;
 
   Coin *coins;
   int numCoins;
+  int numCoinsCollected;
 
   float drag;
   float damping;
@@ -37,8 +43,9 @@ class Game {
   float jumpPowerHoz;
 
   Game();
+  void addLevel(Level newLevel);
+  void createLevels();  // for adding platforms and enemies
 
-  void createLevel();  // for adding platforms and enemies
   void addPlatform(Platform newPlatform);
   // deals with dynamic mem ^^
   void newPlatform(sf::Vector2f size, sf::Vector2f origin);
