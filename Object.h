@@ -13,6 +13,8 @@ class Object {
 
   Object();
 
+  bool collision(Object *object);
+
   void draw(sf::RenderWindow &window);
 
   void update();

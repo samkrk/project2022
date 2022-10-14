@@ -22,6 +22,8 @@ class Player : public Entity {
  Player();
  void shoot(int direction);
  void reload();
+
+ void isKilled(Entity *enemy);
 };
 
 #endif

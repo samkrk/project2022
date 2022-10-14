@@ -21,6 +21,9 @@ Game::Game() {
   enemies = NULL;
   this->numEnemies = 0;
 
+  coins = NULL;
+  this->numCoins = 0;
+
   win.create(sf::VideoMode(1800, 1500), gameName);
 }
 
@@ -39,6 +42,10 @@ void Game::createLevel() {
     newEnemy(sf::Vector2f(i, i));
   }
   
+  for (int i = 100; i < 1600; i+=50)
+  {
+    newCoin(sf::Vector2f(i,500));
+  }
   
 
 }
@@ -80,6 +87,23 @@ void Game::addEnemy(Enemy newEnemy){
 void Game::newEnemy(sf::Vector2f origin){
   Enemy newEnemy(origin);
   addEnemy(newEnemy);
+}
+
+void Game::addCoin(Coin newCoin) {
+  Coin *oldCoins = this->coins;
+  this->numCoins++;
+  this->coins = new Coin[numCoins];
+
+  // copy oldplatforms back to platfroms and add newplatfrom
+  for (int i = 0; i < numCoins - 1; i++) {
+    coins[i] = oldCoins[i];
+  }
+  coins[numCoins - 1] = newCoin;
+}
+
+void Game::newCoin(sf::Vector2f origin) {
+  Coin newCoin(origin);
+  addCoin(newCoin);
 }
 
 void Game::readInputs(Player *player) {
@@ -206,6 +230,89 @@ void Game::collisionWithWindow(Entity *entity) {
   }
 }
 
+void Game::updateObjects() {
+  // update player
+
+  for (int i = 0; i < numEnemies; i++) {
+    player.isKilled(&enemies[i]);
+  }
+
+  if (player.isAlive) {
+    collisionWithWindow(&player);
+
+    for (int i = 0; i < numPlatforms; i++) {
+      platforms[i].collisionPhysics(&player);
+    }
+
+    readInputs(&player);
+
+    calcPositionDrag(&player);
+  }
+
+  // update enemies
+
+  for (int i = 0; i < numEnemies; i++) {
+    enemies[i].isShot(&player);
+  }
+
+  for (int p = 0; p < numPlatforms; p++) {
+    for (int e = 0; e < numEnemies; e++) {
+      if (enemies[e].isAlive) {
+        platforms[p].collisionPhysics(&enemies[e]);
+      }
+    }
+  }
+
+  for (int i = 0; i < numEnemies; i++) {
+    if (enemies[i].isAlive) {
+      collisionWithWindow(&enemies[i]);
+      enemies[i].move(&player);
+      calcPositionDrag(&enemies[i]);
+    }
+  }
+  // update coins
+
+  for (int i = 0; i < numCoins; i++) {
+    coins[i].playerCollect(&player);
+  }
+
+  // update bullets
+
+  for (int i = 0; i < player.magSize; i++) {
+    calcPosition(&player.bullets[i]);
+  }
+}
+
+void Game::drawObjects() {
+  // display objects to screen
+
+  this->win.clear();
+  // platforms
+  for (int i = 0; i < numPlatforms; i++) {
+    win.draw(platforms[i].body);
+  }
+
+  // player
+  win.draw(player.body);
+
+  // enemies
+
+  for (int i = 0; i < numEnemies; i++) {
+    win.draw(enemies[i].body);
+  }
+  // coins
+  for (int i = 0; i < numCoins; i++) {
+    win.draw(coins[i].body);
+  }
+
+  // bullets
+  for (int i = 0; i < player.magSize; i++) {
+    win.draw(player.bullets[i].body);
+  }
+
+  this->win.display();
+}
+
 void Game::run() {
   // spawn and draw nessasery objects
     createLevel();
@@ -216,64 +323,9 @@ void Game::run() {
       if (event.type == sf::Event::Closed) win.close();
     }
 
-    // update player
+    updateObjects();
 
-    collisionWithWindow(&player);
-
-    for (int i = 0; i < numPlatforms; i++) {
-      platforms[i].collisionPhysics(&player);
-    }
-
-    readInputs(&player);
-
-    calcPositionDrag(&player);
-
-    // update enemies
-
-    for (int p = 0; p < numPlatforms; p++) {
-      for (int e = 0; e < numEnemies; e++) {
-        platforms[p].collisionPhysics(&enemies[e]);
-      }
-    }
-
-    for (int i = 0; i < numEnemies; i++)
-    {
-      collisionWithWindow(&enemies[i]);
-      enemies[i].move(&player);
-      calcPositionDrag(&enemies[i]);
-    }
-
-    // update bullets
-
-    for (int i = 0; i < player.magSize; i++) {
-      calcPosition(&player.bullets[i]);
-    }
-
-
-    // display objects to screen
-
-    this->win.clear();
-    // platforms
-    for (int i = 0; i < numPlatforms; i++) {
-      win.draw(platforms[i].body);
-    }
-
-    // player
-    win.draw(player.body);
-
-    // enemies
-
-    for (int i = 0; i < numEnemies; i++)
-    {
-      win.draw(enemies[i].body);
-    }
-    
-
-    // bullets
-    for (int i = 0; i < player.magSize; i++) {
-      win.draw(player.bullets[i].body);
-    }
-
-    this->win.display();
+    drawObjects();
+  
   }
 }

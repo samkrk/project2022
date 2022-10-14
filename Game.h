@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "Player.h"
 #include "Spring.h"
+#include "Coin.h"
 
 class Game {
  public:
@@ -25,6 +26,9 @@ class Game {
 
   Enemy *enemies;
   int numEnemies;
+
+  Coin *coins;
+  int numCoins;
 
   float drag;
   float damping;
@@ -43,10 +47,17 @@ class Game {
   void addEnemy(Enemy newEnemy);
   void newEnemy(sf::Vector2f origin);
 
+  void addCoin(Coin newCoin);
+  void newCoin(sf::Vector2f origin);
+
   void readInputs(Player *player);
   void collisionWithWindow(Entity *entity);
   void calcPosition(Entity *entity);
   void calcPositionDrag(Entity *entity);
+
+  void updateObjects();
+  void drawObjects();
+
   void run();
 };
 

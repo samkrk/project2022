@@ -15,6 +15,8 @@ class Enemy : public Entity {
 
   Enemy();
   Enemy(sf::Vector2f origin);
+
+  void isShot(Player *player);
   bool playerInRange(Player *player);
   void move(Player *player);
 };

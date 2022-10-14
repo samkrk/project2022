@@ -11,7 +11,6 @@ class Platform : public Object {
   Platform();
   Platform(sf::Vector2f size, sf::Vector2f origin);
 
-  bool collision(Entity *entity);
   void collisionPhysics(Entity *entity);
 };
 

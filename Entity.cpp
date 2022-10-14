@@ -19,6 +19,8 @@ Entity::Entity() {
   position = zeroVec;
   velocity = zeroVec;
   acceleration = zeroVec;
+
+  isAlive = true;
 }
 
 void Entity::setPos(sf::Vector2f newPosition) {this->position = newPosition;}

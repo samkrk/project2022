@@ -12,7 +12,7 @@ Enemy::Enemy() { Enemy(sf::Vector2f(0, 0)); }
 
 Enemy::Enemy(sf::Vector2f origin) {
   this->spawnCoords = origin;
-  this->size = sf::Vector2f(30, 30);
+  this->size = sf::Vector2f(40, 40);
   body.setSize(this->size);
   this->position = origin;
   this->fillColor = sf::Color::Cyan;
@@ -23,6 +23,20 @@ Enemy::Enemy(sf::Vector2f origin) {
   this->targetingRange = 350;
   this->trackingSpeed = 0.05;
 }
+
+void Enemy::isShot(Player *player) {
+  for (int i = 0; i < player->magSize; i++)
+  {
+    if (collision(&player->bullets[i]))
+    {
+      player->bullets[i].setPos(ofScreenPos);
+      this->isAlive = false;
+      this->position = ofScreenPos;
+      update();
+    }
+  }
+}
+
 bool Enemy::playerInRange(Player *player) {
   sf::Vector2f direction = player->position - this->position;
   float distance = pow(direction.x, 2) + pow(direction.y, 2);

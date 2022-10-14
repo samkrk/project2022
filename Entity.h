@@ -18,7 +18,7 @@ class Entity : public Object {
   bool onRWall;
 
   Entity();
-
+  
   void setPos(sf::Vector2f newPosition);
   void setVel(sf::Vector2f newVelocity);
   void setAcc(sf::Vector2f newAcceleration);

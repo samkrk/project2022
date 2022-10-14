@@ -17,31 +17,6 @@ Platform::Platform(sf::Vector2f size, sf::Vector2f origin) {
   std::cout << this->damping << std::endl;
 }
 
-bool Platform::collision(Entity *entity) {
-  // check bounding box -> then check which side the entity is touching
-  bool belowTop = false;
-  bool aboveBottom = false;
-  bool rightOfSide = false;
-  bool leftOfSide = false;
-  // top
-  if (entity->position.y > this->position.y - entity->size.y) {
-    belowTop = true;
-  }
-  // bottom
-  if (entity->position.y < this->position.y + this->size.y) {
-    aboveBottom = true;
-  }
-  // left
-  if (entity->position.x > this->position.x - entity->size.x) {
-    rightOfSide = true;
-  }
-  // right
-  if (entity->position.x < this->position.x + this->size.x) {
-    leftOfSide = true;
-  }
-  return (belowTop && aboveBottom && rightOfSide && leftOfSide);
-}
-
 void Platform::collisionPhysics(Entity *entity) {
   // only call if the collision function is true
   if (!collision(entity)) {
