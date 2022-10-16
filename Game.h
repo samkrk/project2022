@@ -16,7 +16,7 @@
 
 class Game {
  public:
-  float gameSpeed;
+
   std::string gameName;
   sf::RenderWindow win;
 
@@ -26,6 +26,7 @@ class Game {
   int numLevels;
   int levelIndex;
 
+  float gameSpeed;
   float drag;
   float damping;
   float gravity;
@@ -35,17 +36,7 @@ class Game {
   Game();
   void addLevel(Level newLevel);
   void createLevels();  // for adding platforms and enemies
-
-  void addPlatform(Platform newPlatform);
-  // deals with dynamic mem ^^
-  void newPlatform(sf::Vector2f size, sf::Vector2f origin);
-  void newSpring(sf::Vector2f size, sf::Vector2f origin);
-
-  void addEnemy(Enemy newEnemy);
-  void newEnemy(sf::Vector2f origin);
-
-  void addCoin(Coin newCoin);
-  void newCoin(sf::Vector2f origin);
+  void updateLevels();
 
   void readInputs(Player *player);
   void collisionWithWindow(Entity *entity);

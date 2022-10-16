@@ -39,6 +39,8 @@ public:
  void addCoin(Coin newCoin);
  void newCoin(sf::Vector2f origin);
 
+ void countCoinsCollected();
+
 };
 
 

@@ -13,8 +13,7 @@ Level::Level() {
 }
 
 bool Level::isFinished() {
-  if (numCoinsCollected == numCoins)
-  {
+  if (numCoinsCollected == numCoins) {
     return true;
   }
   return false;
@@ -74,4 +73,13 @@ void Level::addCoin(Coin newCoin) {
 void Level::newCoin(sf::Vector2f origin) {
   Coin newCoin(origin);
   addCoin(newCoin);
+}
+
+void Level::countCoinsCollected() {
+  numCoinsCollected = 0;
+  for (int i = 0; i < numCoins; i++) {
+    if (coins[i].isCollected) {
+      numCoinsCollected++;
+    }
+  }
 }

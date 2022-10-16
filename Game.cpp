@@ -60,12 +60,14 @@ void Game::createLevels() {
     levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
   }
 
-  for (int i = 100; i < 1600; i += 50) {
+  for (int i = 100; i < 200; i += 50) {
     levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
   }
 
   // level 2
   addLevel(newLevel);
+
+  levels[numLevels-1].spawnCoords = sf::Vector2f(1000,600);
 
   levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
                                     sf::Vector2f(200, 1200));
@@ -225,13 +227,13 @@ void Game::updateObjects() {
     for (int i = 0; i < levels[levelIndex].numPlatforms; i++) {
       levels[levelIndex].platforms[i].collisionPhysics(&player);
     }
-    
+
     readInputs(&player);
 
     calcPositionDrag(&player);
   } else {
     createLevels();
-    player.respawn();
+    player.respawn(levels[levelIndex].spawnCoords);
   }
 
   // update enemies
@@ -257,13 +259,11 @@ void Game::updateObjects() {
     }
   }
   // update coins
-
   for (int i = 0; i < levels[levelIndex].numCoins; i++) {
     levels[levelIndex].coins[i].playerCollect(&player);
   }
 
   // update bullets
-
   for (int i = 0; i < player.magSize; i++) {
     calcPosition(&player.bullets[i]);
   }
@@ -299,6 +299,20 @@ void Game::drawObjects() {
   this->win.display();
 }
 
+void Game::updateLevels() {
+  levels[levelIndex].countCoinsCollected();
+  std::cout << levels[levelIndex].numCoinsCollected << std::endl;
+
+  if (levels[levelIndex].isFinished()) {
+    levelIndex++;
+    player.respawn(levels[levelIndex].spawnCoords);
+  }
+  if (levelIndex == numLevels) {
+    win.close();
+    std::cout << "winner, winner!!" << std::endl;
+  }
+}
+
 void Game::run() {
   // spawn and draw nessasery objects
   createLevels();
@@ -310,15 +324,10 @@ void Game::run() {
       if (event.type == sf::Event::Closed) win.close();
     }
 
-    if (levels[levelIndex].isFinished()) {
-      levelIndex++;
-    }
-    
-    
-
     updateObjects();
 
     drawObjects();
-    
+
+    updateLevels();
   }
 }

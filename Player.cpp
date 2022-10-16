@@ -54,8 +54,11 @@ void Player::isKilled(Entity *enemy) {
   }
 }
 
-void Player::respawn() {
+void Player::respawn(sf::Vector2f spawnCoords) {
   this->isAlive = true;
   this->bulletIndex = 0;
   bullets = new Bullet[magSize];
+  velocity = zeroVec;
+  acceleration = zeroVec;
+  position = spawnCoords;
 }
