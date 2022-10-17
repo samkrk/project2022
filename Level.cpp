@@ -10,6 +10,16 @@ Level::Level() {
   coins = NULL;
   this->numCoins = 0;
   this->numCoinsCollected = 0;
+
+  /*background.loadFromFile("background2.jpeg");  // load background image
+  bg.setTexture(background);
+  bg.setScale(3.5,3.9);
+  
+  background.loadFromFile("background.jpeg");  // load background image
+
+  bg.setTexture(background);
+  bg.setScale(5, 4.2);
+  */
 }
 
 bool Level::isFinished() {

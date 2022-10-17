@@ -14,6 +14,15 @@ Platform::Platform(sf::Vector2f size, sf::Vector2f origin) {
   this->position = origin;
   body.setSize(this->size);
   body.setPosition(this->position);
+
+  body.setFillColor(sf::Color::White);
+  /*
+  if (!skin.loadFromFile("platform.png")){
+    std::cout << "FAILED" << std::endl;
+  }
+  body.setTexture(&skin);
+  body.setTextureRect(sf::IntRect(50,175,600,175));
+  */
 }
 
 void Platform::collisionPhysics(Entity *entity) {

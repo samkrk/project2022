@@ -10,7 +10,6 @@ class Object {
   sf::Vector2f size;
   sf::Vector2f position;
 
-
   Object();
 
   bool collision(Object *object);

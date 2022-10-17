@@ -12,8 +12,16 @@ Coin::Coin(sf::Vector2f origin) {
   body.setSize(size);
   fillColor = sf::Color(236,215,73);
   body.setFillColor(fillColor);
+  
   position = origin;
   update();
+  /*
+  if (!skin.loadFromFile("coin.jpeg")){
+    std::cout << "FAILED" << std::endl;
+  }
+  body.setFillColor(sf::Color::White);
+  body.setTexture(&skin);
+  */
 }
 
 void Coin::playerCollect(Player *player) {

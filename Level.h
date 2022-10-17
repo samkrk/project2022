@@ -25,6 +25,9 @@ public:
  int numCoins;
  int numCoinsCollected;
 
+ sf::Texture background;
+ sf::Sprite bg;
+
  Level();
 
  bool isFinished();
