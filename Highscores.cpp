@@ -11,7 +11,7 @@ Highscores::Highscores() {
 void Highscores::calcHighscore() {
   highscore = scores[0];
   for (int i = 0; i < numScores; i++) {
-    if (scores[i] < highscore) {
+    if (scores[i] < highscore && scores[i] > 0) {
       highscore = scores[i];
     }
   }

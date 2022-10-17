@@ -28,7 +28,7 @@ Menu::Menu() {
       "Collect all the coins in each level to progress to the next";
   intructions[1] = "Watch out for pesky enemies as they will kill you!";
   intructions[2] =
-      "Try and beat your high score by completeing the game as fast as you "
+      "Try and beat your high score by completing the game as fast as you "
       "can!";
   intructions[3] = "\nUse wasd to move space to jump and your mouse to shoot";
   intructions[4] = "\nPress SPACE to start the game";
