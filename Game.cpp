@@ -393,7 +393,7 @@ void Game::run() {
 
     menu.displayMenu(&win);
 
-    if (menu.playSelected && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+    if (menu.playSelected) {
       menu.displayHowToPlay(&win);
 
       clock.restart();  // start game timer
