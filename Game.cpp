@@ -7,6 +7,8 @@
 using namespace std;
 
 Game::Game() {
+  time.asSeconds();
+
   this->gameName = "Platform Game";
   this->gameSpeed = 0.02;
   this->drag = 0.0001;  // force oposing velocity
@@ -314,20 +316,36 @@ void Game::updateLevels() {
 }
 
 void Game::run() {
-  // spawn and draw nessasery objects
-  createLevels();
-  levelIndex = 0;
-  // game loop
-  while (win.isOpen()) {
-    sf::Event event;
-    while (win.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) win.close();
+
+  menu.displayMenu(&win);
+
+  if (menu.playSelected)
+  {
+    menu.displayHowToPlay(&win);
+    clock.restart();  // start game timer
+
+    createLevels();  // spawn and draw nessasery objects
+    levelIndex = 0;
+    // game loop
+    while (win.isOpen()) {
+      sf::Event event;
+      while (win.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) win.close();
+      }
+
+      updateObjects();
+
+      drawObjects();
+
+      updateLevels();
     }
 
-    updateObjects();
+    time = clock.getElapsedTime();
+    std::cout << "you finsihed in " << time.asSeconds() << std::endl;
 
-    drawObjects();
-
-    updateLevels();
+  } else
+  {
+    std::cout << "leaderboard" << std::endl;
   }
+    
 }

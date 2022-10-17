@@ -6,24 +6,29 @@
 class Menu{
     public:
     Menu();
-    sf::RenderWindow win;
+
     sf::Font font;
     sf::Text play;
-    sf::Text options;
+    sf::Text leaderboard;
     sf::Texture background;
     sf::Sprite bg;
 
+    sf::Text howToPlay[5];
+
 
     bool playSelected;
+    bool leaderboardSelected;
+
+    bool isSelect;
+
 
     void highlightingWords();
 
     void isSelected();
 
-    void run();
+    void displayMenu(sf::RenderWindow *win);
 
-
-
+    void displayHowToPlay(sf::RenderWindow *win);
 
 };
 
