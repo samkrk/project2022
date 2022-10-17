@@ -109,6 +109,73 @@ void Game::createLevels() {
   for (int i = 100; i < 200; i += 200) {
     levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
   }
+
+  // level 3
+  addLevel(newLevel);
+
+  levels[numLevels - 1].spawnCoords = sf::Vector2f(1000, 600);
+
+  levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
+                                    sf::Vector2f(200, 1200));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(400, thickness),
+                                    sf::Vector2f(300, 1000));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(600, thickness),
+                                    sf::Vector2f(800, 800));
+
+  for (int i = 400; i < 1600; i += 500) {
+    levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
+  }
+
+  for (int i = 100; i < 1000; i += 400) {
+    levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
+  }
+  // level 4
+  addLevel(newLevel);
+
+  levels[numLevels - 1].spawnCoords = sf::Vector2f(1000, 600);
+
+  
+  levels[numLevels - 1].newPlatform(sf::Vector2f(600, thickness),
+                                    sf::Vector2f(800, 800));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(1000, thickness),
+                                    sf::Vector2f(900, 100));
+  levels[numLevels - 1].newSpring(sf::Vector2f(20, thickness),
+                                  sf::Vector2f(20, 600));
+  levels[numLevels - 1].newSpring(sf::Vector2f(400, 10),
+                                  sf::Vector2f(140, 800));
+
+  for (int i = 0; i < 1200; i += 200) {
+    levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
+  }
+
+  for (int i = 100; i < 200; i += 200) {
+    levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
+  }
+  // level 5
+  addLevel(newLevel);
+
+  levels[numLevels - 1].spawnCoords = sf::Vector2f(1000, 600);
+
+  levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
+                                    sf::Vector2f(200, 1200));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(400, thickness),
+                                    sf::Vector2f(300, 1000));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(600, thickness),
+                                    sf::Vector2f(800, 800));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(1000, thickness),
+                                    sf::Vector2f(900, 100));
+  levels[numLevels - 1].newSpring(sf::Vector2f(20, thickness),
+                                  sf::Vector2f(20, 600));
+  levels[numLevels - 1].newSpring(sf::Vector2f(400, 10),
+                                  sf::Vector2f(140, 800));
+
+  for (int i = 400; i < 1600; i += 300) {
+    levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
+  }
+
+  for (int i = 100; i < 200; i += 200) {
+    levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
+  }
 }
 
 void Game::readInputs(Player *player) {
