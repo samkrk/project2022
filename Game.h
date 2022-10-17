@@ -44,6 +44,11 @@ class Game {
   float jumpPower;
   float jumpPowerHoz;
 
+  sf::Font font;
+  sf::Text levelStat;
+  sf::Text bulletsLeft;
+  sf::Text timer;
+
   Game();
 
   void gameLoop();
@@ -70,6 +75,8 @@ class Game {
 
   void updateObjects();
   void drawObjects();
+
+  void updateGameStats();
 
   void run();
 };

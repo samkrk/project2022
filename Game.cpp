@@ -10,7 +10,6 @@ Game::Game() {
   time.asSeconds();
   isCompleteLevels = false;
 
-
   this->gameName = "Platform Game";
   this->gameSpeed = 0.02;
   this->drag = 0.0001;  // force oposing velocity
@@ -24,6 +23,23 @@ Game::Game() {
   int levelIndex = 0;
 
   win.create(sf::VideoMode(1800, 1500), gameName);
+
+  font.loadFromFile("arcadefont.TTF");
+
+  levelStat.setFont(font);
+  levelStat.setFillColor(sf::Color::White);
+  levelStat.setPosition(20, 10);
+  levelStat.setCharacterSize(75);
+
+  bulletsLeft.setFont(font);
+  bulletsLeft.setFillColor(sf::Color::Red);
+  bulletsLeft.setPosition(20, 200);
+  bulletsLeft.setCharacterSize(30);
+
+  timer.setFont(font);
+  timer.setFillColor(sf::Color::White);
+  timer.setPosition(20, 100);
+  timer.setCharacterSize(75);
 }
 
 void Game::addLevel(Level newLevel) {
@@ -71,7 +87,7 @@ void Game::createLevels() {
   // level 2
   addLevel(newLevel);
 
-  levels[numLevels-1].spawnCoords = sf::Vector2f(1000,600);
+  levels[numLevels - 1].spawnCoords = sf::Vector2f(1000, 600);
 
   levels[numLevels - 1].newPlatform(sf::Vector2f(300, thickness),
                                     sf::Vector2f(200, 1200));
@@ -271,6 +287,10 @@ void Game::updateObjects() {
   for (int i = 0; i < player.magSize; i++) {
     calcPosition(&player.bullets[i]);
   }
+
+  // update time
+  time = clock.getElapsedTime();
+  gameTime = time.asSeconds();
 }
 
 void Game::drawObjects() {
@@ -300,6 +320,11 @@ void Game::drawObjects() {
     win.draw(player.bullets[i].body);
   }
 
+  // stats
+  win.draw(levelStat);
+  win.draw(bulletsLeft);
+  win.draw(timer);
+
   this->win.display();
 }
 
@@ -312,8 +337,30 @@ void Game::updateLevels() {
   }
   if (levelIndex == numLevels) {
     isCompleteLevels = true;
-    std::cout << "winner, winner!!" << std::endl;
   }
+}
+
+void Game::updateGameStats() {
+  sf::String str;
+
+  str = "Level  ";
+  str += std::to_string(levelIndex + 1);
+  str += " of ";
+  str += std::to_string(numLevels);
+
+  levelStat.setString(str);
+
+  str = std::to_string(player.magSize - player.bulletIndex);
+  str += "   of   ";
+  str += std::to_string(player.magSize);
+  str += "  bullets      r   to  reload";
+
+  bulletsLeft.setString(str);
+
+  str = std::to_string(gameTime);
+  str += " s";
+
+  timer.setString(str);
 }
 
 void Game::gameLoop() {
@@ -326,6 +373,8 @@ void Game::gameLoop() {
     while (win.pollEvent(event)) {
       if (event.type == sf::Event::Closed) win.close();
     }
+
+    updateGameStats();
 
     updateObjects();
 
@@ -341,6 +390,7 @@ void Game::run() {
     while (win.pollEvent(event)) {
       if (event.type == sf::Event::Closed) win.close();
     }
+
     menu.displayMenu(&win);
 
     if (menu.playSelected) {
@@ -357,7 +407,7 @@ void Game::run() {
 
       menu.displayWinScreen(&win, gameTime, highscores.highscore);
 
-      highscores.read();
+      highscores.read();  // update highscore
 
     } else {
       menu.displayLeaderBoard(&win, highscores.highscore);

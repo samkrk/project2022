@@ -24,13 +24,11 @@ Player::Player() {
 
 void Player::shoot(int direction) {
   if (bulletIndex == magSize) {
-    std::cout << "Out of ammo" << std::endl;
     return;
   }
   bullets[bulletIndex].setPos(this->position + 0.5f * this->size);
   bullets[bulletIndex].setVel(sf::Vector2f(bullets->speed * direction, 0));
   bulletIndex++;
-  std::cout << "Bullet " << bulletIndex << " of " << magSize << std::endl;
   clock.restart();
 }
 
