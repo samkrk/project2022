@@ -14,5 +14,4 @@ Spring::Spring(sf::Vector2f size, sf::Vector2f origin) {
   this->position = origin;
   body.setSize(this->size);
   body.setPosition(this->position);
-  std::cout << this->damping << std::endl;
 }

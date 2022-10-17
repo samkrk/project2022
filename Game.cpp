@@ -8,6 +8,8 @@ using namespace std;
 
 Game::Game() {
   time.asSeconds();
+  isCompleteLevels = false;
+
 
   this->gameName = "Platform Game";
   this->gameSpeed = 0.02;
@@ -88,7 +90,7 @@ void Game::createLevels() {
     levels[numLevels - 1].newEnemy(sf::Vector2f(i, i));
   }
 
-  for (int i = 100; i < 1600; i += 200) {
+  for (int i = 100; i < 200; i += 200) {
     levels[numLevels - 1].newCoin(sf::Vector2f(i, 500));
   }
 }
@@ -303,49 +305,62 @@ void Game::drawObjects() {
 
 void Game::updateLevels() {
   levels[levelIndex].countCoinsCollected();
-  std::cout << levels[levelIndex].numCoinsCollected << std::endl;
 
   if (levels[levelIndex].isFinished()) {
     levelIndex++;
     player.respawn(levels[levelIndex].spawnCoords);
   }
   if (levelIndex == numLevels) {
-    win.close();
+    isCompleteLevels = true;
     std::cout << "winner, winner!!" << std::endl;
   }
 }
 
-void Game::run() {
-
-  menu.displayMenu(&win);
-
-  if (menu.playSelected)
-  {
-    menu.displayHowToPlay(&win);
-    clock.restart();  // start game timer
-
-    createLevels();  // spawn and draw nessasery objects
-    levelIndex = 0;
-    // game loop
-    while (win.isOpen()) {
-      sf::Event event;
-      while (win.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) win.close();
-      }
-
-      updateObjects();
-
-      drawObjects();
-
-      updateLevels();
+void Game::gameLoop() {
+  isCompleteLevels = false;
+  createLevels();  // spawn and draw nessasery objects
+  levelIndex = 0;
+  // game loop
+  while (win.isOpen() && !isCompleteLevels) {
+    sf::Event event;
+    while (win.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) win.close();
     }
 
-    time = clock.getElapsedTime();
-    std::cout << "you finsihed in " << time.asSeconds() << std::endl;
+    updateObjects();
 
-  } else
-  {
-    std::cout << "leaderboard" << std::endl;
+    drawObjects();
+
+    updateLevels();
   }
-    
+}
+
+void Game::run() {
+  while (win.isOpen()) {
+    sf::Event event;
+    while (win.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) win.close();
+    }
+    menu.displayMenu(&win);
+
+    if (menu.playSelected) {
+      menu.displayHowToPlay(&win);
+
+      clock.restart();  // start game timer
+
+      gameLoop();
+
+      // game complete
+      time = clock.getElapsedTime();
+      gameTime = time.asSeconds();
+      highscores.write(gameTime);
+
+      menu.displayWinScreen(&win, gameTime, highscores.highscore);
+
+      highscores.read();
+
+    } else {
+      menu.displayLeaderBoard(&win, highscores.highscore);
+    }
+  }
 }

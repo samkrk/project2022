@@ -14,6 +14,7 @@ class Menu{
     sf::Sprite bg;
 
     sf::Text howToPlay[5];
+    sf::Text *highScores;
 
 
     bool playSelected;
@@ -28,7 +29,11 @@ class Menu{
 
     void displayMenu(sf::RenderWindow *win);
 
+    void displayLeaderBoard(sf::RenderWindow *win, int Highscore);
+
     void displayHowToPlay(sf::RenderWindow *win);
+
+    void displayWinScreen(sf::RenderWindow *win, int gameTime, int prevRecord);
 
 };
 

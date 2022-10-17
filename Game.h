@@ -14,12 +14,17 @@
 #include "Spring.h"
 #include "Level.h"
 #include "Menu.h"
+#include "Highscores.h"
 
 class Game {
  public:
   sf::Clock clock;
   sf::Time time;
+  bool isCompleteLevels;
   float timeSinceShot;
+  int gameTime;
+
+  Highscores highscores;
 
   Menu menu;
 
@@ -40,6 +45,9 @@ class Game {
   float jumpPowerHoz;
 
   Game();
+
+  void gameLoop();
+
   void addLevel(Level newLevel);
   void createLevels();  // for adding platforms and enemies
   void updateLevels();
