@@ -490,13 +490,18 @@ void Game::run() {
       menu.displayHowToPlay(&win);
 
       clock.restart();  // start game timer
+      isCompleteLevels = false;
 
       gameLoop();
 
       // game complete
       time = clock.getElapsedTime();
       gameTime = time.asSeconds();
-      highscores.write(gameTime);
+
+      if (isCompleteLevels)
+      {
+        highscores.write(gameTime);
+      }
 
       menu.displayWinScreen(&win, gameTime, highscores.highscore);
 
