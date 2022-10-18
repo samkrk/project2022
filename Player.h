@@ -12,6 +12,8 @@ class Player : public Entity {
  int bulletIndex;
  Bullet *bullets;
 
+ sf::Texture skin;
+
  sf::Clock clock;
  sf::Time time;
  float timeSinceShot;

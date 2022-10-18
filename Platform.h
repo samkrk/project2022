@@ -8,6 +8,8 @@ class Platform : public Object {
  public:
   float damping;
 
+  sf::Texture skin;
+
   Platform();
   Platform(sf::Vector2f size, sf::Vector2f origin);
 

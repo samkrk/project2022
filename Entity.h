@@ -17,6 +17,8 @@ class Entity : public Object {
   bool onLWall;
   bool onRWall;
 
+  sf::Texture skin;
+
   Entity();
   
   void setPos(sf::Vector2f newPosition);

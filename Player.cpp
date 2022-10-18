@@ -20,6 +20,12 @@ Player::Player() {
   this->relaodTime = 1000;
 
   this->reloading = false;
+
+  /*if (!skin.loadFromFile("coin.jpeg")){
+    std::cout<< "FAILED" << std::endl;
+  }
+  body.setTexture(&skin);
+  */
 }
 
 void Player::shoot(int direction) {
