@@ -34,6 +34,7 @@ Game::Game() {
   playerTexture.loadFromFile("trollskin.png");
   VertPlatformTexture.loadFromFile("1by2platform.png");
   VertSpringTexture.loadFromFile("verticalspring.png");
+  enemyTexture.loadFromFile("enemy.png");
 
   levelStat.setFont(font);
   levelStat.setFillColor(sf::Color::White);
@@ -107,7 +108,9 @@ void Game::createLevels() {
   levels[numLevels - 1].platforms[6].body.setTexture(&springTexture);
 
   levels[numLevels - 1].newEnemy(sf::Vector2f(1350, 850));
+  levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(750, 1300));
+  levels[numLevels - 1].enemies[1].body.setTexture(&enemyTexture);
 
   levels[numLevels - 1].newCoin(sf::Vector2f(700, 100));
   levels[numLevels - 1].coins[0].body.setTexture(&coinTexture);
@@ -154,13 +157,21 @@ void Game::createLevels() {
   levels[numLevels - 1].platforms[15].body.setTexture(&VertSpringTexture);
 
   levels[numLevels - 1].newEnemy(sf::Vector2f(1400, 500));
+  levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1250, 500));
+  levels[numLevels - 1].enemies[1].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(900, 500));
+  levels[numLevels - 1].enemies[2].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(750, 500));
+  levels[numLevels - 1].enemies[3].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(20, 1400));
+  levels[numLevels - 1].enemies[4].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(140, 1400));
+  levels[numLevels - 1].enemies[5].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1100, 1400));
+  levels[numLevels - 1].enemies[6].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1300, 1100));
+  levels[numLevels - 1].enemies[7].body.setTexture(&enemyTexture);
 
   levels[numLevels - 1].newCoin(sf::Vector2f(1300, 300));
   levels[numLevels - 1].coins[0].body.setTexture(&coinTexture);
@@ -215,8 +226,11 @@ void Game::createLevels() {
   levels[numLevels - 1].platforms[16].body.setTexture(&VertSpringTexture);
 
   levels[numLevels - 1].newEnemy(sf::Vector2f(700, 700));
+  levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1400, 1450));
+  levels[numLevels - 1].enemies[1].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(800, 400));
+  levels[numLevels - 1].enemies[2].body.setTexture(&enemyTexture);
 
 
   levels[numLevels - 1].newCoin(sf::Vector2f(1500, 1000));
@@ -279,9 +293,13 @@ void Game::createLevels() {
   levels[numLevels - 1].platforms[21].body.setTexture(&VertSpringTexture);
 
   levels[numLevels - 1].newEnemy(sf::Vector2f(0, 1450));
+  levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1750, 1450));
+  levels[numLevels - 1].enemies[1].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1700, 650));
+  levels[numLevels - 1].enemies[2].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(700, 250));
+  levels[numLevels - 1].enemies[3].body.setTexture(&enemyTexture);
 
 
 
@@ -351,8 +369,11 @@ void Game::createLevels() {
 
 
   levels[numLevels - 1].newEnemy(sf::Vector2f(50, 1100));
+  levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1200, 1450));
+  levels[numLevels - 1].enemies[1].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1750, 300));
+  levels[numLevels - 1].enemies[2].body.setTexture(&enemyTexture);
 
 
 

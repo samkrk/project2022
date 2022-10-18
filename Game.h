@@ -58,7 +58,8 @@ class Game {
   sf::Texture playerTexture;
   sf::Texture VertSpringTexture;
   sf::Texture VertPlatformTexture;
-  
+  sf::Texture enemyTexture;
+
   Game();
 
   void gameLoop();
