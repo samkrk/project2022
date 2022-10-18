@@ -13,12 +13,14 @@ class Enemy : public Entity {
 
   sf::Vector2f spawnCoords;
 
-  Enemy();
-  Enemy(sf::Vector2f origin);
+  Enemy(); // spawncoords default to (0,0)
+  Enemy(sf::Vector2f origin); // sets spawnCoords to given origin
 
-  void isShot(Player *player);
-  bool playerInRange(Player *player);
-  void move(Player *player);
+  void isShot(Player *player); // checks if shot by players bullets
+  bool playerInRange(Player *player); // checks if distance to player is less than the targeting range
+  void move(Player *player); // moves enemy based on tracking algorithim
+
+  void print(); // displays purpose of enemy
 };
 
 #endif

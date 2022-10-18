@@ -13,6 +13,8 @@ class Coin : public Entity {
   Coin();
   Coin(sf::Vector2f origin);
   void playerCollect(Player *player);
+
+  void print();
 };
 
 #endif

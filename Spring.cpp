@@ -15,3 +15,7 @@ Spring::Spring(sf::Vector2f size, sf::Vector2f origin) {
   body.setSize(this->size);
   body.setPosition(this->position);
 }
+
+void Spring::print() {
+  std::cout << "Gives the player a large jump" << std::endl;
+}

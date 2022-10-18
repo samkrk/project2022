@@ -9,6 +9,8 @@ class Spring : public Platform {
  public:
   Spring();
   Spring(sf::Vector2f size, sf::Vector2f origin);
+
+  void print();
 };
 
 #endif

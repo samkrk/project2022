@@ -66,3 +66,7 @@ void Player::respawn(sf::Vector2f spawnCoords) {
   acceleration = zeroVec;
   position = spawnCoords;
 }
+
+void Player::print() {
+  std::cout << "Player which the user controls" << std::endl;
+}

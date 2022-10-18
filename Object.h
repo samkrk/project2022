@@ -10,14 +10,15 @@ class Object {
   sf::Vector2f size;
   sf::Vector2f position;
 
-  Object();
+  Object(); // initialises abject
 
-  bool collision(Object *object);
+  bool collision(Object *object); // checks for collision with anotehr object
 
-  void draw(sf::RenderWindow &window);
+  void draw(sf::RenderWindow &window);  // draws object to renderwindow
 
-  void update();
-  // virtual void print() = 0; to make abtract, will do later
+  void update(); // sets the position of the body based on its member variables
+  
+  virtual void print() = 0; // will be implemented in derived classes to print important info
 };
 
 #endif

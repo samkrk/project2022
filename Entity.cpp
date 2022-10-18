@@ -31,4 +31,3 @@ void Entity::setAcc(sf::Vector2f newAcceleration) {
 void Entity::addPos(sf::Vector2f addPosition) {this->position += addPosition;}
 void Entity::addVel(sf::Vector2f addVelocity) {this->velocity += addVelocity; }
 void Entity::addAcc(sf::Vector2f addAcceleration) {this->acceleration += addAcceleration; }
-

@@ -10,6 +10,8 @@ class Bullet : public Entity {
 
   Bullet();
   Bullet(float speed);
+
+  void print();
 };
 
 #endif
