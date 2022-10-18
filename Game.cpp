@@ -25,6 +25,12 @@ Game::Game() {
   win.create(sf::VideoMode(1800, 1500), gameName);
 
   font.loadFromFile("arcadefont.TTF");
+  background.loadFromFile("background4.jpeg");
+  bg.setTexture(background);
+  bg.setScale(1.12,1.4);
+  platformTexture.loadFromFile("platformskin.png");
+  coinTexture.loadFromFile("coinskin.png");
+  springTexture.loadFromFile("springart.png");
 
   levelStat.setFont(font);
   levelStat.setFillColor(sf::Color::White);
@@ -67,31 +73,38 @@ void Game::createLevels() {
 
   levels[numLevels - 1].newPlatform(sf::Vector2f(500, 75),
                                     sf::Vector2f(300, 1325));
+  levels[numLevels - 1].platforms[0].body.setTexture(&platformTexture);
 
   levels[numLevels - 1].newPlatform(sf::Vector2f(400, 75),
                                     sf::Vector2f(1100, 900));
+  levels[numLevels - 1].platforms[1].body.setTexture(&platformTexture);
 
   levels[numLevels - 1].newPlatform(sf::Vector2f(100, 300),
                                     sf::Vector2f(800, 100));
+  levels[numLevels - 1].platforms[2].body.setTexture(&platformTexture);
 
   
   levels[numLevels - 1].newSpring(sf::Vector2f(50, 300),
                                   sf::Vector2f(300, 200));
+  levels[numLevels - 1].platforms[3].body.setTexture(&springTexture);
 
   levels[numLevels - 1].newSpring(sf::Vector2f(500, 50),
                                   sf::Vector2f(700, 600));
+  levels[numLevels - 1].platforms[4].body.setTexture(&springTexture);
 
   levels[numLevels - 1].newSpring(sf::Vector2f(50, 200),
                                   sf::Vector2f(1300, 500));
+  levels[numLevels - 1].platforms[5].body.setTexture(&springTexture);
 
   levels[numLevels - 1].newSpring(sf::Vector2f(200, 50),
                                   sf::Vector2f(900, 1125));
+  levels[numLevels - 1].platforms[6].body.setTexture(&springTexture);
 
   levels[numLevels - 1].newEnemy(sf::Vector2f(1350, 850));
   levels[numLevels - 1].newEnemy(sf::Vector2f(750, 1300));
 
   levels[numLevels - 1].newCoin(sf::Vector2f(700, 100));
-  
+  levels[numLevels - 1].coins[0].body.setTexture(&coinTexture);
 
   // level 2
   addLevel(newLevel);
@@ -374,7 +387,7 @@ void Game::drawObjects() {
 
   this->win.clear();
   // background 
-  win.draw(levels[1].bg);
+  win.draw(bg);
 
   // platforms
   for (int i = 0; i < levels[levelIndex].numPlatforms; i++) {

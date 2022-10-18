@@ -49,6 +49,12 @@ class Game {
   sf::Text bulletsLeft;
   sf::Text timer;
 
+  sf::Texture background;
+  sf::Sprite bg;
+
+  sf::Texture platformTexture;
+  sf::Texture coinTexture;
+  sf::Texture springTexture;
   Game();
 
   void gameLoop();
