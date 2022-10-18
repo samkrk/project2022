@@ -6,8 +6,8 @@
 
 using namespace std;
 
-Game::Game() {
-  time.asSeconds();
+Game::Game() { // game constructor needs to initialise everything 
+  time.asSeconds(); // timer 
   isCompleteLevels = false;
 
   this->gameName = "Platform Game";
@@ -18,12 +18,14 @@ Game::Game() {
   this->jumpPower = 30;
   this->jumpPowerHoz = 20;
 
+  // initialise level settings 
   levels = NULL;
   numLevels = 0;
   int levelIndex = 0;
 
-  win.create(sf::VideoMode(1800, 1500), gameName);
+  win.create(sf::VideoMode(1800, 1500), gameName); // create window
 
+  // load fonts and textures from files 
   font.loadFromFile("arcadefont.TTF");
   background.loadFromFile("background4.jpeg");
   bg.setTexture(background);
@@ -36,6 +38,7 @@ Game::Game() {
   VertSpringTexture.loadFromFile("verticalspring.png");
   enemyTexture.loadFromFile("enemy.png");
 
+  // set up the words in the top left corner of game 
   levelStat.setFont(font);
   levelStat.setFillColor(sf::Color::White);
   levelStat.setPosition(20, 10);
@@ -52,7 +55,7 @@ Game::Game() {
   timer.setCharacterSize(75);
 }
 
-void Game::addLevel(Level newLevel) {
+void Game::addLevel(Level newLevel) { // used to index the levels 
   Level *oldLevels = levels;
   this->numLevels++;
   this->levels = new Level[numLevels];
@@ -64,7 +67,7 @@ void Game::addLevel(Level newLevel) {
   levels[numLevels - 1] = newLevel;
 }
 
-void Game::createLevels() {
+void Game::createLevels() { // initialises all the levels 
   levels = NULL;
   numLevels = 0;
   int levelIndex = 0;
@@ -74,54 +77,47 @@ void Game::createLevels() {
   // level 1
   Level newLevel;
   addLevel(newLevel);
-
-  int thickness = 300;
+  // spawd coords
   levels[numLevels - 1].spawnCoords = sf::Vector2f(100,1450);
 
-  levels[numLevels - 1].newPlatform(sf::Vector2f(500, 75),
-                                    sf::Vector2f(300, 1325));
+  // platforms 
+  levels[numLevels - 1].newPlatform(sf::Vector2f(500, 75),sf::Vector2f(300, 1325));
   levels[numLevels - 1].platforms[0].body.setTexture(&platformTexture);
-
-  levels[numLevels - 1].newPlatform(sf::Vector2f(400, 75),
-                                    sf::Vector2f(1100, 900));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(400, 75),sf::Vector2f(1100, 900));
   levels[numLevels - 1].platforms[1].body.setTexture(&platformTexture);
-
-  levels[numLevels - 1].newPlatform(sf::Vector2f(100, 300),
-                                    sf::Vector2f(800, 100));
+  levels[numLevels - 1].newPlatform(sf::Vector2f(100, 300),sf::Vector2f(800, 100));
   levels[numLevels - 1].platforms[2].body.setTexture(&VertPlatformTexture);
 
-  
-  levels[numLevels - 1].newSpring(sf::Vector2f(50, 300),
-                                  sf::Vector2f(300, 200));
-  levels[numLevels - 1].platforms[3].body.setTexture(&springTexture); // ideal spring dimensions
-
-  levels[numLevels - 1].newSpring(sf::Vector2f(500, 50),
-                                  sf::Vector2f(700, 600));
+  // springs
+  levels[numLevels - 1].newSpring(sf::Vector2f(50, 300),sf::Vector2f(300, 200));
+  levels[numLevels - 1].platforms[3].body.setTexture(&springTexture); 
+  levels[numLevels - 1].newSpring(sf::Vector2f(500, 50),sf::Vector2f(700, 600));
   levels[numLevels - 1].platforms[4].body.setTexture(&springTexture);
-
-  levels[numLevels - 1].newSpring(sf::Vector2f(50, 200),
-                                  sf::Vector2f(1300, 500));
+  levels[numLevels - 1].newSpring(sf::Vector2f(50, 200),sf::Vector2f(1300, 500));
   levels[numLevels - 1].platforms[5].body.setTexture(&VertSpringTexture);
-
-  levels[numLevels - 1].newSpring(sf::Vector2f(200, 50),
-                                  sf::Vector2f(900, 1125));
+  levels[numLevels - 1].newSpring(sf::Vector2f(200, 50),sf::Vector2f(900, 1125));
   levels[numLevels - 1].platforms[6].body.setTexture(&springTexture);
 
+  // enemies
   levels[numLevels - 1].newEnemy(sf::Vector2f(1350, 850));
   levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(750, 1300));
   levels[numLevels - 1].enemies[1].body.setTexture(&enemyTexture);
 
+  // coins
   levels[numLevels - 1].newCoin(sf::Vector2f(700, 100));
   levels[numLevels - 1].coins[0].body.setTexture(&coinTexture);
 
   // level 2
   addLevel(newLevel);
+  // spawn coords
   levels[numLevels - 1].spawnCoords = sf::Vector2f(1600,350);
 
+  // spring
   levels[numLevels - 1].newSpring(sf::Vector2f(50, 100),sf::Vector2f(1750, 200));
   levels[numLevels - 1].platforms[0].body.setTexture(&springTexture);   
 
+  // platforms 
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 100),sf::Vector2f(1600, 400)); 
   levels[numLevels - 1].platforms[1].body.setTexture(&platformTexture);
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 100),sf::Vector2f(1400, 600));
@@ -145,17 +141,19 @@ void Game::createLevels() {
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 100),sf::Vector2f(1400, 900));
   levels[numLevels - 1].platforms[11].body.setTexture(&platformTexture);
 
+  // vertical platforms
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 400),sf::Vector2f(300, 500));
   levels[numLevels - 1].platforms[12].body.setTexture(&VertPlatformTexture);
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 400),sf::Vector2f(300, 1100));
   levels[numLevels - 1].platforms[13].body.setTexture(&VertPlatformTexture);
 
-  
+  // springs
   levels[numLevels - 1].newSpring(sf::Vector2f(300, 150),sf::Vector2f(100, 50));
   levels[numLevels - 1].platforms[14].body.setTexture(&springTexture);
   levels[numLevels - 1].newSpring(sf::Vector2f(75, 150),sf::Vector2f(850, 700));
   levels[numLevels - 1].platforms[15].body.setTexture(&VertSpringTexture);
 
+  // enemies
   levels[numLevels - 1].newEnemy(sf::Vector2f(1400, 500));
   levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1250, 500));
@@ -173,6 +171,7 @@ void Game::createLevels() {
   levels[numLevels - 1].newEnemy(sf::Vector2f(1300, 1100));
   levels[numLevels - 1].enemies[7].body.setTexture(&enemyTexture);
 
+  // coins
   levels[numLevels - 1].newCoin(sf::Vector2f(1300, 300));
   levels[numLevels - 1].coins[0].body.setTexture(&coinTexture);
   levels[numLevels - 1].newCoin(sf::Vector2f(0, 300));
@@ -184,11 +183,14 @@ void Game::createLevels() {
   // level 3
   addLevel(newLevel);
 
+  // spawn coords
   levels[numLevels - 1].spawnCoords = sf::Vector2f(100,1450);
 
+  // spring
   levels[numLevels - 1].newSpring(sf::Vector2f(100, 200),sf::Vector2f(200, 900));
   levels[numLevels - 1].platforms[0].body.setTexture(&springTexture);   
 
+  // platforms
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 100),sf::Vector2f(0, 1000)); //1 
   levels[numLevels - 1].platforms[1].body.setTexture(&platformTexture);
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 100),sf::Vector2f(600, 800)); //2
@@ -202,6 +204,7 @@ void Game::createLevels() {
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 100),sf::Vector2f(500, 200));//6
   levels[numLevels - 1].platforms[6].body.setTexture(&platformTexture);
 
+  // vertical platforms
   levels[numLevels - 1].newPlatform(sf::Vector2f(200, 400),sf::Vector2f(100, 500));//7
   levels[numLevels - 1].platforms[7].body.setTexture(&VertPlatformTexture);
   levels[numLevels - 1].newPlatform(sf::Vector2f(400, 100),sf::Vector2f(300, 450));//8
@@ -211,7 +214,7 @@ void Game::createLevels() {
   levels[numLevels - 1].newPlatform(sf::Vector2f(30, 320),sf::Vector2f(970, 180));//10
   levels[numLevels - 1].platforms[10].body.setTexture(&VertPlatformTexture);
 
-  
+  // springs 
   levels[numLevels - 1].newSpring(sf::Vector2f(100, 200),sf::Vector2f(600, 1000));
   levels[numLevels - 1].platforms[11].body.setTexture(&VertSpringTexture);
   levels[numLevels - 1].newSpring(sf::Vector2f(400, 100),sf::Vector2f(700, 500));//12
@@ -225,6 +228,7 @@ void Game::createLevels() {
   levels[numLevels - 1].newSpring(sf::Vector2f(100, 200),sf::Vector2f(1200, 100));//16
   levels[numLevels - 1].platforms[16].body.setTexture(&VertSpringTexture);
 
+  // enemies
   levels[numLevels - 1].newEnemy(sf::Vector2f(700, 700));
   levels[numLevels - 1].enemies[0].body.setTexture(&enemyTexture);
   levels[numLevels - 1].newEnemy(sf::Vector2f(1400, 1450));
@@ -232,7 +236,7 @@ void Game::createLevels() {
   levels[numLevels - 1].newEnemy(sf::Vector2f(800, 400));
   levels[numLevels - 1].enemies[2].body.setTexture(&enemyTexture);
 
-
+  // coins
   levels[numLevels - 1].newCoin(sf::Vector2f(1500, 1000));
   levels[numLevels - 1].coins[0].body.setTexture(&coinTexture);
   levels[numLevels - 1].newCoin(sf::Vector2f(500, 80));
