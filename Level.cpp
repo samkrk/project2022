@@ -93,3 +93,9 @@ void Level::countCoinsCollected() {
     }
   }
 }
+
+Level::~Level() {
+  delete platforms;
+  delete enemies;
+  delete coins;
+}

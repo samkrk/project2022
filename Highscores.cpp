@@ -39,7 +39,7 @@ void Highscores::read() {
 }
 
 void Highscores::write(int score) {
-  std::fstream myfile;
+  std::fstream myfile;  
   myfile.open(fname, std::ios::out);
   for (int i = 0; i < numScores; i++)
   {

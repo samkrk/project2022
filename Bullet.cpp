@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include <iostream>
 
 Bullet::Bullet() {
   this->isFired = false;
@@ -15,3 +16,6 @@ Bullet::Bullet(float speed) {
   this->speed = speed;
 }
 
+void Bullet::print() {
+  std::cout << "Bullets can be shoot by a player" << std::endl;
+}

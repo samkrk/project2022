@@ -56,3 +56,7 @@ void Enemy::move(Player *player) {
   }
   setAcc(sf::Vector2f(0,2));
 }
+
+void Enemy::print() {
+  std::cout << "Enemies can kill a player" << std::endl;
+}

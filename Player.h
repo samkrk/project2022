@@ -27,6 +27,8 @@ class Player : public Entity {
 
  void isKilled(Entity *enemy);
  void respawn(sf::Vector2f spawnCoords);
+
+ void print();
 };
 
 #endif

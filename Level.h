@@ -29,6 +29,7 @@ public:
  sf::Sprite bg;
 
  Level();
+ ~Level(); // frees memory
 
  bool isFinished();
 

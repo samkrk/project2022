@@ -32,3 +32,7 @@ void Coin::playerCollect(Player *player) {
     update();
   }
 }
+
+void Coin::print() {
+  std::cout << "Coins can be collected by a player" << std::endl;
+}

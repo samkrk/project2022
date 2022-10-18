@@ -85,3 +85,7 @@ void Platform::collisionPhysics(Entity *entity) {
         sf::Vector2f(this->position.x - entity->size.x, entity->position.y));
   }
 }
+
+void Platform::print() {
+  std::cout << "Platforms bound the player's movement" << std::endl;
+}

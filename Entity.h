@@ -28,7 +28,6 @@ class Entity : public Object {
                                           // position + change in position
   void addVel(sf::Vector2f addVelocity);
   void addAcc(sf::Vector2f addAcceleration);
-  //virtual void print() = 0; to make abtract, will do later
 };
 
 #endif
