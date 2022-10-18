@@ -55,6 +55,10 @@ class Game {
   sf::Texture platformTexture;
   sf::Texture coinTexture;
   sf::Texture springTexture;
+  sf::Texture playerTexture;
+  sf::Texture VertSpringTexture;
+  sf::Texture VertPlatformTexture;
+  
   Game();
 
   void gameLoop();
