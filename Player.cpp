@@ -11,12 +11,12 @@ Player::Player() {
   body.setOutlineColor(sf::Color::White);
   body.setOutlineThickness(2.f);
 
-  this->magSize = 20;
+  this->magSize = 5;
   this->bulletIndex = 0;
   bullets = new Bullet[magSize];
 
   time.asMilliseconds();
-  this->fireRate = 100;
+  this->fireRate = 300;
   this->relaodTime = 1000;
 
   this->reloading = false;
